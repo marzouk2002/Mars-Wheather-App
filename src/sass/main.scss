@@ -1,0 +1,262 @@
+@import 'config';
+
+.sr-only:not(:focus):not(:active) {
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    height: 1px;
+    overflow: hidden;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
+}
+
+body {
+    margin: 0;
+    font-family: 'Montserrat', sans-serif;
+    line-height: 1.6;
+    background-image: url(../img/mars.jpg);
+    background-size:cover;
+    color: $clr-light;
+    min-height: 100vh;
+} 
+
+.mars-current {
+    background: rgba(0, 0, 0, .7);
+    padding: 2rem;
+    max-width: 1000px;
+    
+    &_title {
+        grid-column: 1/-1;
+    }
+
+    &_date {
+        grid-column: 1/2;
+
+        &__day {
+            font-size: $fs-h2;
+            color: $clr-gray;
+            font-weight: $fw-light;
+            margin: 0;
+        }
+    }
+
+    &_temp {
+        grid-column: 2/3;
+        padding: 0 2em;
+        @include border-right-left;
+    }
+
+    &_wind {
+        grid-column: 3/4;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: min-content, 1fr;
+        align-self: start;
+
+        .wind {
+            &__direction {
+                $size : 6rem;
+                width: $size;
+                height: $size;
+                border-radius: 50%;
+                background-color: rgba(255, 255, 255, 0.5);
+                display: grid;
+                place-items: center;
+                grid-row: 1/ span 2;
+            }
+
+            &__arrow {
+                --direction:0deg;
+                $size: 1rem;
+                width: $size;
+                height: $size*3;
+                background-color: $clr-accent-dark;
+                clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+                transform-origin: bottom center;
+                transform: translateY(-50%)  rotate(var(--direction));
+            }
+        }
+    }
+
+    &_info {
+        grid-column: 1/3;
+    }
+
+    &_unit {
+        grid-column: 3/4;
+        place-self: end;
+        color: $clr-light;
+        display: flex;
+        align-items: center;
+        opacity: .6;
+        transition: opacity 300ms linear;
+
+        &:hover {
+            opacity: 1;
+        }
+        
+        label {
+            cursor: pointer;
+        }
+
+        input {
+            clip: rect(0 0 0 0);
+            clip-path: inset(50%);
+            height: 13px;
+            overflow: hidden;
+            position: absolute;
+            white-space: nowrap;
+            width: 13px;
+        }
+
+        .unit__toggle {
+            cursor: pointer;
+            border: 2px solid $clr-light;
+            background-color: transparent;
+            width: 4em;
+            border-radius: 100vmax;
+            padding: 0;
+            margin: 0 .5rem;
+            outline: none;
+
+            &::after {
+                content: '';
+                display: block;
+                height: 1rem;
+                margin: 2px;
+                margin-left: auto;
+                width: 1rem;
+                background-color: $clr-light;
+                border-radius: 50%;
+            }
+        }
+
+        :checked ~ .unit__toggle::after {
+            margin-left: 2px;
+        }
+    }
+}
+
+.reading {
+    font-size: $fs-h1;
+    color: $clr-gray;
+    margin: 0;
+}
+
+.previous-wheather {
+    background: $clr-light;
+    color: $clr-dark;
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    transform: translateY(75%);
+    transition: transform 500ms ease-in-out;
+    padding: 1rem 3rem;
+
+    &_show{
+        position: absolute;
+        background-color: $clr-light;
+        left: 50%;
+        width: 10rem;
+        transform: translateX(-50%) translateY(calc(-99% - 1rem)) rotate(0deg);
+        clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+        outline: none;
+        border: none;
+        cursor: pointer;
+        line-height: 1;
+        font-size: $fs-h2;
+        font-family: inherit;
+        color: $clr-gray;
+
+        &:hover,
+        &:focus {
+            color: $clr-dark;
+        }
+
+        span {
+            display: block;
+            transition: transform 350ms ease-in-out;
+        }
+
+        .rotate {
+            transform: translateY(6px) rotate(180deg);
+        }
+    }
+
+    &__title {
+        text-align: center;
+    }
+
+    .previous-day {
+        opacity: 0;
+
+        & > * {
+            margin: 0.5em;
+        }
+
+        &__date {
+            font-size: 0.9rem;
+            color: $clr-gray;
+        }
+
+        &__more-info {
+            border: 0;
+            cursor: pointer;
+            border-radius: 100vmax;
+            background-color: $clr-dark;
+            color: $clr-light;
+            text-transform: uppercase;
+            padding: .5rem 1rem;
+
+            &:hover {
+                background-color: $clr-gray;
+            }
+        }
+
+        
+    }
+}
+
+.show {
+    transform: translateY(1%);
+
+    .previous-wheather__title {
+        text-align: left;
+        animation: slideUp 700ms forwards;
+    }
+
+    .previous-day {
+        animation: slideUp 700ms forwards;
+    }
+
+    @for $i from 1 through 7 {
+        .previous-day:nth-child(#{$i}) { animation-delay: $i*80ms;}
+    }
+    
+}
+
+
+.previous-days {
+    display: flex;
+    justify-content: space-between;
+    padding: 2rem 3rem;
+}
+
+@media (min-width: 900px ) {
+
+    $fs-h1:1.25rem;
+    $fs-xl: 4rem;
+    $fs-body:1rem;
+
+    body {
+        height: 100vh;
+        overflow: hidden;
+    }
+
+    .mars-current {
+        margin: 4rem 0 0 4rem;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-gap: 2rem;
+    }
+}

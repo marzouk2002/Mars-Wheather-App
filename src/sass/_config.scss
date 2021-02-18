@@ -1,0 +1,70 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+@mixin border-right-left {
+    $border: solid .5rem $clr-accent-dark;
+    border-right: $border;
+    border-left: $border;
+}
+
+@keyframes slideUp {
+    0% {
+        opacity: 0;
+        transform: translateY(50%);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0%);
+    }
+}
+
+// Variables
+$fw-light: 300;
+$fw-normal: 400;
+$fw-semi: 500;
+$fw-bold: 700;
+$fs-h1: 1.25rem;
+$fs-h2: 1.75rem;
+$fs-body: 1rem;
+$fs-xl: 4rem;
+$clr-light: #fff;
+$clr-gray: #989898;
+$clr-dark: #444;
+$clr-accent: #D06D6D;
+$clr-accent-dark: #613131;
+
+
+
+// Typographie
+h1, h2, h3 {
+    line-height: 1;
+}
+.main-title {
+    font-size: $fs-h1;
+    font-weight: $fw-light;
+    text-transform: uppercase;
+    color: $clr-accent;
+    letter-spacing: 2px;
+}
+
+.section-title {
+    font-size: $fs-h2;
+    font-weight: $fw-bold;
+    margin: 0;
+
+    &--date {
+        font-size: $fs-xl;
+    }
+}
+
+a {
+    color: $clr-accent;
+
+    &:hover {
+        color: $clr-accent-dark;
+    }
+}
